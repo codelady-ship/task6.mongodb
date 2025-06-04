@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose"; 
+import programmersModel from "./Models/programersModel";
 
 const { connection } = mongoose;
 
@@ -27,9 +28,9 @@ app.get("/programmers", (req, res) => {
 
 //post
 app.post("/programmers", (req, res) => {
-  const data = req.body;
+  const data = req.body;//bunla tuturuq
   if (data.name && data.age && data.stack && data.stack.length > 0){
-    programmersModel.create(data)
+    programmersModel.create(data)//yaradiriq
       .then(() => {
         res.status(201).send({
           status: 201,
@@ -44,6 +45,44 @@ app.post("/programmers", (req, res) => {
   }
   });
 
+//get id
+app.get("/programmers/:id", (req, res) => {
+    const programmer = programmersModel.findById(req.params.id);//paramsla tutaq
+    if (programmer) {
+      res.status(200).send(programmer);
+    } else {
+      res.status(404).send({ message: "Programmer not found" });
+    }
+
+});
+
+//put İD ilə proqramçını yenilə
+app.put("/programmers/:id",(req, res) => {
+    const updated = programmersModel.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+    );
+    if (updated) {
+      res.status(200).send({
+        message: "Programmer updated successfully",
+      });
+    } else {
+      res.status(404).send({ message: "Programmer not found" });
+    }
+  } 
+);
+
+//delete
+app.delete("/programmers/:id",(req, res) => {
+    const deleted =  programmersModel.findByIdAndDelete(req.params.id);
+    if (deleted) {
+      res.status(200).send({
+        message: "Programmer deleted successfully",
+      });
+    } else {
+      res.status(404).send({ message: "Programmer not found" });
+    }
+});
 
 
 app.listen(8080, () => {
