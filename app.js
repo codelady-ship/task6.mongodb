@@ -1,6 +1,6 @@
 import express from "express";
 import mongoose from "mongoose"; 
-import programmersRoutes from "./routes/programmers.js";
+import programmersRoutes from "./Routes/programmers.js";
 const { connection } = mongoose;
 
 const app = express();
