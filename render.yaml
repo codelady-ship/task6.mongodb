@@ -1,0 +1,17 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+# New > Blueprint > pick this repo. Render asks for MONGODB_URI because it is "sync: false".
+services:
+  - type: web
+    name: task6-programmers-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: MONGODB_URI
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://task7-front-end-for-task6.vercel.app,http://localhost:3000
